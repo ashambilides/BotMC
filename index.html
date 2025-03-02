@@ -20,13 +20,13 @@
     <!-- Replace the src URL with your Google Sheets embed URL -->
     <iframe id="sheets-table" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS2JE9J16k9czhyUyBL9ONx2fAErHZII5pWxOAgj16p-8sjal59q0kac3cQwU-qY0IZuq_IMXTFEtA1/pubhtml?gid=1332134535&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
 
-    <!-- JavaScript to auto-refresh the iframe every 30 seconds -->
+    <!-- JavaScript to auto-refresh the iframe every 1 second -->
     <script>
         setInterval(function() {
             var iframe = document.getElementById('sheets-table');
             var src = iframe.src.split('&t=')[0]; // Remove any existing timestamp
             iframe.src = src + '&t=' + new Date().getTime(); // Add new timestamp
-        }, 30000); // 30000 ms = 30 seconds
+        }, 1000); // 1000 ms = 1 second
     </script>
 </body>
 </html>
