@@ -21,21 +21,17 @@
     </style>
 </head>
 <body>
-    <!-- Replace with your Google Sheets embed URL -->
-    <iframe id="sheets-table" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS2JE9J16k9czhyUyBL9ONx2fAErHZII5pWxOAgj16p-8sjal59q0kac3cQwU-qY0IZuq_IMXTFEtA1/pubhtml?gid=1332134535&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
-
-    <!-- JavaScript to refresh iframe with a timestamp -->
+    <iframe id="sheets-table" src=""></iframe>
     <script>
-        function updateIframe() {
+        document.addEventListener('DOMContentLoaded', function() {
             var iframe = document.getElementById('sheets-table');
+            // Replace with your Google Sheets embed URL
+            var baseSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS2JE9J16k9czhyUyBL9ONx2fAErHZII5pWxOAgj16p-8sjal59q0kac3cQwU-qY0IZuq_IMXTFEtA1/pubhtml?gid=1332134535&amp;single=true&amp;widget=true&amp;headers=false";
             var timestamp = new Date().getTime();
-            // Append a unique timestamp to bypass cache
-            var src = iframe.src.split('?')[0] + '?t=' + timestamp;
-            iframe.src = src;
-        }
-
-        // Refresh iframe every 1 minute (60000 milliseconds)
-        setInterval(updateIframe, 60000);
+            var separator = baseSrc.indexOf('?') !== -1 ? "&" : "?";
+            iframe.src = baseSrc + separator + "t=" + timestamp;
+            console.log("Setting iframe src to: " + iframe.src);
+        });
     </script>
 </body>
 </html>
