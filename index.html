@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Prevent browser caching -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -13,31 +14,28 @@
             padding: 0;
         }
         iframe {
-            width: 100%;       /* Full width of the page */
+            width: 100%;       /* Full width */
             height: 100vh;     /* Full viewport height */
-            border: none;      /* No border around iframe */
+            border: none;      /* No border */
         }
     </style>
 </head>
 <body>
-    <!-- Replace the src URL with your Google Sheets embed URL -->
+    <!-- Replace with your Google Sheets embed URL -->
     <iframe id="sheets-table" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS2JE9J16k9czhyUyBL9ONx2fAErHZII5pWxOAgj16p-8sjal59q0kac3cQwU-qY0IZuq_IMXTFEtA1/pubhtml?gid=1332134535&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
 
-    <!-- JavaScript to auto-refresh the iframe every 1 minute -->
+    <!-- JavaScript to refresh iframe with a timestamp -->
     <script>
-        setInterval(function() {
+        function updateIframe() {
             var iframe = document.getElementById('sheets-table');
-            var src = iframe.src.split('&t=')[0]; // Remove any existing timestamp
-            var newSrc = src + '&t=' + new Date().getTime(); // Add new timestamp
-            // Create a new iframe to force a fresh load
-            var newIframe = document.createElement('iframe');
-            newIframe.src = newSrc;
-            newIframe.width = '100%';
-            newIframe.height = '100vh';
-            newIframe.style.border = 'none';
-            newIframe.id = 'sheets-table';
-            iframe.parentNode.replaceChild(newIframe, iframe);
-        }, 10000); // 10000 ms = 1 minute
+            var timestamp = new Date().getTime();
+            // Append a unique timestamp to bypass cache
+            var src = iframe.src.split('?')[0] + '?t=' + timestamp;
+            iframe.src = src;
+        }
+
+        // Refresh iframe every 1 minute (60000 milliseconds)
+        setInterval(updateIframe, 60000);
     </script>
 </body>
 </html>
