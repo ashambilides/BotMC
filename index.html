@@ -3,35 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Prevent browser caching -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>My Landing Page</title>
+    <title>My Google Sheets Data</title>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-        }
-        iframe {
+        table {
             width: 100%;
-            height: 100vh;
-            border: none;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
-    <iframe id="sheets-table" src=""></iframe>
+    <table id="sheets-table"></table>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var iframe = document.getElementById('sheets-table');
-            // Replace with your adjusted embed URL
-            var baseSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS2JE9J16k9czhyUyBL9ONx2fAErHZII5pWxOAgj16p-8sjal59q0kac3cQwU-qY0IZuq_IMXTFEtA1/pubhtml?gid=1332134535&amp;single=true&amp;&amp;headers=false";
-            var timestamp = new Date().getTime();
-            var separator = baseSrc.indexOf('?') !== -1 ? "&" : "?";
-            iframe.src = baseSrc + separator + "t=" + timestamp;
-            console.log("Setting iframe src to: " + iframe.src);
-        });
+        async function loadSheetData() {
+            const apiKey = 'AIzaSyB1UNbvuVz2r-1Zn70TC-fKJR3lgamrLr4'; // Replace with your API key
+            const sheetId = '2PACX-1vS2JE9J16k9czhyUyBL9ONx2fAErHZII5pWxOAgj16p-8sjal59q0kac3cQwU-qY0IZuq_IMXTFEtA1'; // Replace with your sheet ID
+            const range = 'Results!A1:G12'; // Adjust to your sheet tab and range
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`API request failed: ${response.statusText}`);
+                }
+                const data = await response.json();
+                const values = data.values;
+
+                if (!values || values.length === 0) {
+                    console.error('No data found in the specified range.');
+                    return;
+                }
+
+                const table = document.getElementById('sheets-table');
+                table.innerHTML = ''; // Clear existing content
+
+                // Add header row
+                const headerRow = document.createElement('tr');
+                values[0].forEach(cell => {
+                    const th = document.createElement('th');
+                    th.textContent = cell;
+                    headerRow.appendChild(th);
+                });
+                table.appendChild(headerRow);
+
+                // Add data rows
+                for (let i = 1; i < values.length; i++) {
+                    const row = document.createElement('tr');
+                    values[i].forEach(cell => {
+                        const td = document.createElement('td');
+                        td.textContent = cell;
+                        row.appendChild(td);
+                    });
+                    table.appendChild(row);
+                }
+            } catch (error) {
+                console.error('Error fetching sheet data:', error);
+            }
+        }
+
+        // Load data when the page loads
+        document.addEventListener('DOMContentLoaded', loadSheetData);
     </script>
 </body>
 </html>
