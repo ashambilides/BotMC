@@ -3,8 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Google Sheets Data</title>
+    <title>Burger of the Month Club</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -15,12 +39,21 @@
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #333;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
     </style>
 </head>
 <body>
-    <table id="sheets-table"></table>
+    <h1>Burger of the Month Club</h1>
+    <img src="burger.jpg" alt="A vibrant burger in a classic NYC diner">
+    <p>Welcome to the Burger of the Month Club! We’re a group of friends passionate about exploring NYC’s burger scene. Each month, we visit a different burger joint, savor their offerings, and rate them. Check out our scores below!</p>
+    <div class="table-container">
+        <table id="sheets-table"></table>
+    </div>
     <script>
         async function loadSheetData() {
             const apiKey = 'AIzaSyB1UNbvuVz2r-1Zn70TC-fKJR3lgamrLr4'; // Replace with your API key
